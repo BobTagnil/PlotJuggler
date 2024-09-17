@@ -122,6 +122,7 @@ MainWindow::MainWindow(const QCommandLineParser& commandline_parser, QWidget* pa
   if (commandline_parser.isSet("window_title"))
   {
     setWindowTitle(commandline_parser.value("window_title"));
+    setProperty("windowTitle", commandline_parser.value("window_title"));
   }
   else
   {
@@ -130,6 +131,7 @@ MainWindow::MainWindow(const QCommandLineParser& commandline_parser, QWidget* pa
     {
       QString title = fileTitle.readAll().trimmed();
       setWindowTitle(title);
+      setProperty("windowTitle", title);
     }
   }
 
@@ -1541,6 +1543,16 @@ std::unordered_set<std::string> MainWindow::loadDataFromFile(const FileLoadInfo&
 
       if (dataloader->readDataFromFile(&new_info, mapped_data))
       {
+        QVariant title = property("windowTitle");
+        if(title.isValid())
+        {
+          setWindowTitle(title.toString() + "-" + info.filename.section('/', -1));
+        }
+        else
+        {
+          setWindowTitle(QCoreApplication::applicationName() + " - " + info.filename.section('/', -1));
+        }
+
         AddPrefixToPlotData(info.prefix.toStdString(), mapped_data.numeric);
         AddPrefixToPlotData(info.prefix.toStdString(), mapped_data.strings);
 
