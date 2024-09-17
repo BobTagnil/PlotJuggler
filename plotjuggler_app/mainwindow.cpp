@@ -1530,7 +1530,7 @@ std::unordered_set<std::string> MainWindow::loadDataFromFile(const FileLoadInfo&
       return {};
     }
     file.close();
-
+ 
     try
     {
       PlotDataMapRef mapped_data;
@@ -1546,7 +1546,7 @@ std::unordered_set<std::string> MainWindow::loadDataFromFile(const FileLoadInfo&
         QVariant title = property("windowTitle");
         if(title.isValid())
         {
-          setWindowTitle(title.toString() + "-" + info.filename.section('/', -1));
+          setWindowTitle(title.toString() + " - " + info.filename.section('/', -1));
         }
         else
         {
